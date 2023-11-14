@@ -4,16 +4,19 @@ const { nanoid } = require("nanoid");
 
 const contactsPath = path.join(__dirname, "db", "contacts.json");
 
-const readFile = async () => {
-  const data = await fs.readFile("./files/file.txt", "utf-8");
+// const readFile = async () => {
+//   const data = await fs.readFile("./files/file.txt", "utf-8");
 
-  return data;
+//   return data;
+// };
+
+// const writeFile = async () => {
+//   const data = await fs.writeFile("./files/file2.txt", "Hallo word!");
+// };
+// функція хелпер
+const writeFile = async (filePath, data) => {
+  await fs.writeFile(filePath, data);
 };
-
-const writeFile = async () => {
-  const data = await fs.writeFile("./files/file2.txt", "Hallo word!");
-};
-
 async function listContacts() {
   // ...твой код. Возвращает массив контактов.
   const data = await fs.readFile(contactsPath, "utf-8");
@@ -33,14 +36,14 @@ async function addContact(name, email, phone) {
   const contacts = await listContacts();
   const newContact = {
     id: nanoid(),
-
     name: name,
     email: email,
     phone: phone,
   };
 
   contacts.push(newContact);
-  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+  // await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+  writeFile(contactsPath, JSON.stringify(contacts, null, 2));
   return newContact;
 }
 
@@ -61,8 +64,8 @@ async function removeContact(contactId) {
 }
 
 module.exports = {
-  readFile,
-  writeFile,
+  // readFile,
+  // writeFile,
   listContacts,
   addContact,
   getContactById,
