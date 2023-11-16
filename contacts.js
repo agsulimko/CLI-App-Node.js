@@ -63,6 +63,22 @@ async function removeContact(contactId) {
   }
 }
 
+async function updateContacts(contactId, name, email, phone) {
+  const contacts = await listContacts();
+
+  const index = contacts.findIndex((contact) => contact.id === contactId);
+
+  if (index !== -1) {
+    contacts[index] = { contactId, name, email, phone };
+    await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+
+    return contacts[index];
+  } else {
+    // console.log(null);
+    return null;
+  }
+}
+
 module.exports = {
   // readFile,
   // writeFile,
@@ -70,6 +86,7 @@ module.exports = {
   addContact,
   getContactById,
   removeContact,
+  updateContacts,
 };
 
 // якщо треба обновити
